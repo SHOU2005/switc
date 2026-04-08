@@ -13,17 +13,6 @@ export default function Profile() {
 
   const initials = user.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
-  const handleLogout = () => {
-    showModal('Logout', 'Are you sure you want to log out?', [
-      { label: 'Cancel', className: 'btn-ghost', action: closeModal },
-      { label: 'Logout', className: 'btn-danger', action: () => {
-        closeModal();
-        logout();
-        navigate('/login');
-      }},
-    ]);
-  };
-
   return (
     <div id="screen-app" className="screen active">
       <Header title="Profile" showBack />
@@ -49,9 +38,6 @@ export default function Profile() {
                 <span>🔑</span>Admin Dashboard<span className="arr">→</span>
               </div>
             )}
-            <div className="pmitem danger" onClick={handleLogout}>
-              <span>🚪</span>Logout<span className="arr">→</span>
-            </div>
           </div>
 
         </div>
