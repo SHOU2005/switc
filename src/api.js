@@ -3,7 +3,7 @@
 // Base URL: /api (proxied to http://localhost:5000 via Vite)
 // =====================================================================
 
-const BASE = '/api';
+const BASE = 'https://haaaa-0swa.onrender.com/api';
 
 function getToken() {
   return localStorage.getItem('sss_token');
