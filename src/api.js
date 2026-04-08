@@ -1,8 +1,8 @@
 // =====================================================================
 // API Service — All calls to the backend
-// Base URL: /api (proxied to http://localhost:5000 via Vite)
 // =====================================================================
 
+// Ensure there is NO trailing slash here
 const BASE = 'https://haaaa-0swa.onrender.com/api';
 
 function getToken() {
@@ -11,6 +11,11 @@ function getToken() {
 
 async function req(method, path, body) {
   const token = getToken();
+  
+  // Ensure path starts with /
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  const url = `${BASE}${cleanPath}`;
+
   const opts = {
     method,
     headers: {
@@ -19,14 +24,28 @@ async function req(method, path, body) {
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   };
-  const res = await fetch(BASE + path, opts);
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
-  return data;
+
+  try {
+    const res = await fetch(url, opts);
+    
+    // Handle empty responses
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : {};
+
+    if (!res.ok) {
+      throw new Error(data.error || `Error ${res.status}: ${res.statusText}`);
+    }
+    return data;
+  } catch (err) {
+    console.error("API Request Failed:", err);
+    throw err;
+  }
 }
 
 // AUTH
 export const api = {
+  // We remove the extra '/auth' because the backend route is likely app.use('/api/auth', ...)
+  // If your server.js uses app.use('/api/auth'), then req('POST', '/auth/login') is correct.
   login: (username, password) => req('POST', '/auth/login', { username, password }),
   me: () => req('GET', '/auth/me'),
 
