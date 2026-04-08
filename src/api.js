@@ -3,7 +3,7 @@
 // =====================================================================
 
 // Ensure there is NO trailing slash here
-const BASE = 'https://haaaa-0swa.onrender.com/api';
+const BASE = 'https://haaaa-production.up.railway.app/api';
 
 function getToken() {
   return localStorage.getItem('sss_token');
