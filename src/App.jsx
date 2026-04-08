@@ -5,7 +5,6 @@ import { UIProvider } from './context/UIContext';
 import { Toast, Modal } from './components';
 
 // Pages
-import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Candidates from './pages/Candidates';
 import AddCandidate from './pages/AddCandidate';
@@ -21,7 +20,7 @@ import Admin from './pages/Admin';
 const Protected = ({ children }) => {
   const { user, loading } = useAuth();
   if (loading) return null;
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user) return <div style={{padding: '20px', textAlign: 'center'}}>Application Error: Could not connect to backend</div>;
   return children;
 };
 
@@ -30,8 +29,6 @@ export default function App() {
     <UIProvider>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          
           <Route path="/" element={<Protected><Dashboard /></Protected>} />
           
           {/* Candidates */}
