@@ -8,15 +8,11 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('sss_token');
-    if (token) {
-      api.me()
-        .then(setUser)
-        .catch(() => localStorage.removeItem('sss_token'))
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
+    // Simply fetch current auto-authenticated user from API without checking localStorage token
+    api.me()
+      .then(setUser)
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
 
   const login = useCallback(async (username, password) => {
